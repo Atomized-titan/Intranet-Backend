@@ -4,7 +4,16 @@ import { UserController } from "../controllers/users.controllers";
 const BASE_PATH = "/users";
 const USER_ID_PATH = "/:id";
 
-export const Routes = [
+export interface UserRouteProps {
+  method: string;
+  path: string;
+  handler: any;
+  action?: string;
+  validation?: any[];
+  protected?: boolean;
+}
+
+export const Routes: UserRouteProps[] = [
   {
     method: "get",
     path: BASE_PATH,
@@ -37,6 +46,7 @@ export const Routes = [
     method: "post",
     path: "/signup",
     handler: UserController.signup,
+    action: "save",
     validation: [
       body("name").isString(),
       body("email").isEmail(),
@@ -46,6 +56,7 @@ export const Routes = [
   {
     method: "post",
     path: "/login",
+    action: "save",
     handler: UserController.login,
     validation: [
       body("email").isEmail(),

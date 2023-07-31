@@ -46,11 +46,11 @@ passport.use(
   new JWTStrategy(
     {
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-      secretOrKey: jwtSecret, // Replace with your JWT secret key
+      secretOrKey: jwtSecret,
     },
     async (payload, done) => {
       try {
-        const user = await getUserByIdSvc(payload.sub);
+        const user = await getUserByIdSvc(payload.userId);
         if (!user) {
           return done(null, false);
         }
@@ -65,9 +65,9 @@ passport.use(
 
 // Function to generate a JWT token
 export const generateJWTToken = (user: User): string => {
-  const payload = { sub: user.id };
-  const options = { expiresIn: "1d" }; // Replace with your preferred token expiration time
-  return jwt.sign(payload, jwtSecret, options); // Replace with your JWT secret key
+  const payload = { userId: user.id };
+  const options = { expiresIn: "1d" }; // TODO Replace with env soon
+  return jwt.sign(payload, jwtSecret, options);
 };
 
 export default passport;

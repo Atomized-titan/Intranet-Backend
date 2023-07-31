@@ -26,6 +26,7 @@ export class UserController {
       if (!user) {
         return res.sendStatus(404);
       }
+      delete user.password;
       return res.status(200).json(user);
     } catch (error) {
       next(error);
