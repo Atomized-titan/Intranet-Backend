@@ -1,7 +1,6 @@
 import app from "./app";
+import { port } from "./config";
 import { init } from "./db/database";
-
-const port = 3000; // Change this to the port you want to use
 
 async function start() {
   try {
