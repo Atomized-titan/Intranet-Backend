@@ -3,7 +3,9 @@ import express, { NextFunction, Request, Response } from "express";
 import { Routes } from "./router/user.router";
 import { validationResult } from "express-validator";
 import logger from "./logger";
+import cors from "cors";
 import { authMiddleware } from "./middlewares/authMiddleware";
+import { rateLimit } from "express-rate-limit";
 
 function logRequest(req: Request, _res: Response, next: NextFunction) {
   logger.info(`${req.method} ${req.url}`);
@@ -23,6 +25,18 @@ const app = express();
 // app.use(morgan('tiny'));
 app.use(bodyParser.json());
 app.use(logRequest); // Log incoming requests
+
+// Use the cors middleware
+app.use(cors());
+
+// Implement rate limiting middleware
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // 100 requests per IP within the windowMs
+});
+
+// Apply the rate limiter to all requests
+app.use(limiter);
 
 Routes.forEach((route) => {
   const method = route.method.toLowerCase();
