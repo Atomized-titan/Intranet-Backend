@@ -6,6 +6,7 @@ import logger from "./logger";
 import cors from "cors";
 import { authMiddleware } from "./middlewares/authMiddleware";
 import { rateLimit } from "express-rate-limit";
+import { setupSwagger } from "./swagger";
 
 function logRequest(req: Request, _res: Response, next: NextFunction) {
   logger.info(`${req.method} ${req.url}`);
@@ -86,5 +87,8 @@ Routes.forEach((route) => {
 });
 
 app.use(handleError);
+
+// Call the setupSwagger function to enable Swagger API documentation
+setupSwagger(app);
 
 export default app;
