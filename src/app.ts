@@ -4,14 +4,24 @@ import { Routes } from "./router/user.router";
 import { validationResult } from "express-validator";
 import logger from "./logger";
 
-function handleError(err, _req, res, _next) {
+function logRequest(req: Request, _res: Response, next: NextFunction) {
+  logger.info(`${req.method} ${req.url}`);
+  next();
+}
+function handleError(
+  err: any,
+  _req: Request,
+  res: Response,
+  _next: NextFunction
+) {
   logger.error(err); // Log the error using Winston logger
-  res.status(err.statusCode || 500).send(err.message);
+  res.status(err.statusCode || 500).json({ error: err.message });
 }
 
 const app = express();
 // app.use(morgan('tiny'));
 app.use(bodyParser.json());
+app.use(logRequest); // Log incoming requests
 
 Routes.forEach((route) => {
   const method = route.method.toLowerCase();

@@ -11,5 +11,8 @@ export class User {
   @Column()
   email: string;
 
+  @Column()
+  password: string;
+
   // Other properties and decorators as needed
 }

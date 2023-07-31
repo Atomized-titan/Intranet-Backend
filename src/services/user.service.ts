@@ -1,5 +1,6 @@
 import { getDatabase } from "../db/database";
 import { User } from "../entity/User";
+import bcrypt from "bcrypt";
 
 export const getAllUsersSvc = async () => {
   const users = await getDatabase().getRepository(User).find();
@@ -13,10 +14,22 @@ export const getUserByIdSvc = async (id: number) => {
   return user;
 };
 
-export const addUserSvc = async (name: string, email: string) => {
+export const getUserByEmailSvc = async (email: string) => {
+  const user = await getDatabase()
+    .getRepository(User)
+    .findOne({ where: { email } });
+  return user;
+};
+
+export const addUserSvc = async (
+  name: string,
+  email: string,
+  password: string
+) => {
   const user = new User();
   user.name = name;
   user.email = email;
+  user.password = await bcrypt.hash(password, 10); // Hash the password with a salt of 10 rounds
 
   const newUser = await getDatabase().getRepository(User).save(user);
   return newUser;

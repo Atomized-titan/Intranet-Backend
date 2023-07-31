@@ -33,4 +33,23 @@ export const Routes = [
     action: "delete",
     validation: [param("id").isInt()],
   },
+  {
+    method: "post",
+    path: "/signup",
+    handler: UserController.signup,
+    validation: [
+      body("name").isString(),
+      body("email").isEmail(),
+      body("password").isLength({ min: 6 }),
+    ],
+  },
+  {
+    method: "post",
+    path: "/login",
+    handler: UserController.login,
+    validation: [
+      body("email").isEmail(),
+      body("password").isLength({ min: 6 }),
+    ],
+  },
 ];
