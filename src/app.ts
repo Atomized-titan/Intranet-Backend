@@ -7,6 +7,7 @@ import logger from "./logger";
 import { UserRoutes } from "./routes/user.route";
 import { setupSwagger } from "./swagger";
 import { registerRoutes } from "./utils/routeUtils";
+import { PostRoutes } from "./routes/post.route";
 
 function logRequest(req: Request, _res: Response, next: NextFunction) {
   logger.info(`${req.method} ${req.url}`);
@@ -43,6 +44,7 @@ const limiter = rateLimit({
 app.use(limiter);
 
 registerRoutes(app, UserRoutes);
+registerRoutes(app, PostRoutes);
 
 app.use(handleError);
 

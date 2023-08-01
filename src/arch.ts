@@ -64,7 +64,7 @@ const engagementActions: EngagementAction[] = [
   // Add more engagement actions with their respective point values
 ];
 
-enum UserRole {
+export enum UserRole {
   Owner = "Owner",
   Admin = "Admin",
   User = "User",

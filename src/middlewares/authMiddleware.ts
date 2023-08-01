@@ -18,10 +18,11 @@ export const authMiddleware = (
   }
 
   try {
-    const decoded = jwt.verify(token, jwtSecret) as { id: number };
-    req.userId = decoded.id; // Save the user id to the request object for further use in route handlers
+    const decoded = jwt.verify(token, jwtSecret) as { userId: number };
+    req.userId = decoded.userId; // Save the user id to the request object for further use in route handlers
     next();
   } catch (err) {
+    console.log("Error decoding token:", err.message);
     return res.status(401).json({ message: "Invalid token." });
   }
 };
