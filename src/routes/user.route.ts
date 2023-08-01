@@ -13,7 +13,7 @@ export interface UserRouteProps {
   protected?: boolean;
 }
 
-export const Routes: UserRouteProps[] = [
+export const UserRoutes: UserRouteProps[] = [
   {
     method: "get",
     path: BASE_PATH,

@@ -1,6 +1,6 @@
 import bodyParser from "body-parser";
 import express, { NextFunction, Request, Response } from "express";
-import { Routes } from "./router/user.router";
+import { UserRoutes } from "./routes/user.route";
 import { validationResult } from "express-validator";
 import logger from "./logger";
 import cors from "cors";
@@ -39,7 +39,7 @@ const limiter = rateLimit({
 // Apply the rate limiter to all requests
 app.use(limiter);
 
-Routes.forEach((route) => {
+UserRoutes.forEach((route) => {
   const method = route.method.toLowerCase();
   if (route.protected) {
     app[method](
