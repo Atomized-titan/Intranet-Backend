@@ -9,6 +9,7 @@ import {
 import { validationResult } from "express-validator";
 import bcrypt from "bcrypt";
 import { generateJWTToken } from "../config/passport-config";
+import { badRequest } from "../views/views";
 export class UserController {
   static async getAllUsers(req: Request, res: Response, next: NextFunction) {
     try {
@@ -56,7 +57,7 @@ export class UserController {
   static async signup(req: Request, res: Response) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return badRequest(res, errors.array());
     }
 
     const { name, email, password } = req.body;

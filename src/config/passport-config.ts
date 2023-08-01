@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import passport from "passport";
 import passportJWT from "passport-jwt";
 import passportLocal from "passport-local";
-import { User } from "../entity/User";
+import { User } from "../orm/entities/User";
 import { getUserByEmailSvc, getUserByIdSvc } from "../services/user.service";
 import { jwtSecret } from "../config";
 

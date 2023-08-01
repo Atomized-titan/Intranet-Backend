@@ -1,5 +1,5 @@
-import { getDatabase } from "../db/database";
-import { User } from "../entity/User";
+import { getDatabase } from "../orm/dbConnection";
+import { User } from "../orm/entities/User";
 import bcrypt from "bcrypt";
 
 export const getAllUsersSvc = async () => {

@@ -20,6 +20,7 @@ export const Routes: UserRouteProps[] = [
     handler: UserController.getAllUsers,
     action: "all",
     validation: [],
+    protected: true,
   },
   {
     method: "get",
