@@ -1,11 +1,10 @@
 import bodyParser from "body-parser";
-import express, { NextFunction, Request, Response } from "express";
-import { UserRoutes } from "./routes/user.route";
-import { validationResult } from "express-validator";
-import logger from "./logger";
 import cors from "cors";
-import { authMiddleware } from "./middlewares/authMiddleware";
+import express, { NextFunction, Request, Response } from "express";
 import { rateLimit } from "express-rate-limit";
+import helmet from "helmet";
+import logger from "./logger";
+import { UserRoutes } from "./routes/user.route";
 import { setupSwagger } from "./swagger";
 import { registerRoutes } from "./utils/routeUtils";
 
@@ -24,6 +23,9 @@ function handleError(
 }
 
 const app = express();
+
+// Use Helmet! for Secure header HTTP requests
+app.use(helmet());
 
 app.use(bodyParser.json());
 app.use(logRequest); // Log incoming requests

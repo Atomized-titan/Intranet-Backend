@@ -18,7 +18,7 @@ export const setupSwagger = (app: Application) => {
         },
       ],
     },
-    apis: ["./src/router/*.router.ts"], // Replace with the path to your router files
+    apis: ["./src/routes/*.route.ts"], // Replace with the path to your router files
   };
 
   const specs = swaggerJsdoc(options);

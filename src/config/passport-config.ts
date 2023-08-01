@@ -66,7 +66,8 @@ passport.use(
 // Function to generate a JWT token
 export const generateJWTToken = (user: User): string => {
   const payload = { userId: user.id };
-  const options = { expiresIn: "1d" }; // TODO Replace with env soon
+  const expires_in_days = process.env.JWT_EXPIRES_IN;
+  const options = { expiresIn: `${expires_in_days}d` };
   return jwt.sign(payload, jwtSecret, options);
 };
 
