@@ -2,7 +2,6 @@
 import { getDatabase } from "../orm/dbConnection";
 import { Post } from "../orm/entities/Post";
 import { User } from "../orm/entities/User";
-import { Like } from "../orm/entities/Like";
 
 // Service to create a new post
 export const createPostSvc = async (content: string, authorId: number) => {
@@ -48,11 +47,14 @@ export const updatePostSvc = async (
   userId: number
 ) => {
   const postRepository = getDatabase().getRepository(Post);
-  const postToUpdate = await postRepository.findOne({ where: { id } });
+  const postToUpdate = await postRepository.findOne({
+    where: { id },
+    relations: ["author"],
+  });
   if (!postToUpdate) {
     throw new Error("Post not found");
   }
-
+  console.log(postToUpdate);
   // Check if the current user is the author of the post
   if (postToUpdate.author.id !== userId) {
     throw new Error("Unauthorized to update the post");
@@ -66,7 +68,10 @@ export const updatePostSvc = async (
 // Service to delete a post
 export const deletePostSvc = async (id: number, userId: number) => {
   const postRepository = getDatabase().getRepository(Post);
-  const postToDelete = await postRepository.findOne({ where: { id } });
+  const postToDelete = await postRepository.findOne({
+    where: { id },
+    relations: ["author"],
+  });
   if (!postToDelete) {
     throw new Error("Post not found");
   }

@@ -1,15 +1,15 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
+  CreateDateColumn,
+  Entity,
   ManyToOne,
   OneToMany,
-  CreateDateColumn,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { User } from "./User";
+import { CommentLike } from "./Like";
 import { Post } from "./Post";
-import { Like } from "./Like";
+import { User } from "./User";
 
 @Entity()
 export class Comment {
@@ -47,8 +47,8 @@ export class Comment {
   @ManyToOne(() => Comment, (comment) => comment.replies)
   parentComment: Comment;
 
-  @OneToMany(() => Like, (like) => like.comment) // Add this line to create the likes relationship
-  likes: Like[];
+  @OneToMany(() => CommentLike, (like) => like.comment)
+  likes: CommentLike[];
 
   // Other relationships, e.g., likes, media, etc.
 }

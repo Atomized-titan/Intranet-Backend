@@ -1,17 +1,15 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
-  ManyToMany,
-  JoinTable,
-  OneToMany,
   CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { User } from "./User";
 import { Comment } from "./Comment";
-import { Like } from "./Like";
+import { PostLike } from "./Like";
+import { User } from "./User";
 
 @Entity()
 export class Post {
@@ -29,8 +27,8 @@ export class Post {
   @ManyToOne(() => User, (user) => user.posts)
   author: User;
 
-  @OneToMany(() => Like, (like) => like.post)
-  likes: Like[];
+  @OneToMany(() => PostLike, (like) => like.post)
+  likes: PostLike[];
 
   @OneToMany(() => Comment, (comment) => comment.post)
   comments: Comment[];

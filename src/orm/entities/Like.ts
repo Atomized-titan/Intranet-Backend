@@ -11,7 +11,7 @@ import { Post } from "./Post";
 import { Comment } from "./Comment";
 
 @Entity()
-export class Like {
+export class PostLike {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -23,16 +23,29 @@ export class Like {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  // Specify the type of item being liked (e.g., "post", "comment", etc.)
-  @Column({ nullable: false })
-  itemType: string;
-
-  @ManyToOne(() => User, (user) => user.likes)
+  @ManyToOne(() => User, (user) => user.postLikes)
   user: User;
 
   @ManyToOne(() => Post, (post) => post.likes)
   post: Post;
+}
 
-  @ManyToOne(() => Comment, (comment) => comment.likes, { nullable: true })
+@Entity()
+export class CommentLike {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @Column()
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @ManyToOne(() => User, (user) => user.commentLikes)
+  user: User;
+
+  @ManyToOne(() => Comment, (comment) => comment.likes)
   comment: Comment;
 }

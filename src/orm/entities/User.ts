@@ -1,19 +1,19 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
+  Entity,
   JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
+import { UserRole } from "../../arch";
+import { Comment } from "./Comment";
+import { CommentLike, PostLike } from "./Like";
 import { Organization } from "./Organization";
 import { Post } from "./Post";
-import { Comment } from "./Comment";
-import { Like } from "./Like";
-import { UserRole } from "../../arch";
 
 @Entity()
 export class User {
@@ -57,8 +57,11 @@ export class User {
   @OneToMany(() => Comment, (comment) => comment.author)
   comments: Comment[]; // <-- This property represents the relationship with comments
 
-  @OneToMany(() => Like, (like) => like.user)
-  likes: Like[];
+  @OneToMany(() => PostLike, (postLike) => postLike.user)
+  postLikes: PostLike[];
+
+  @OneToMany(() => CommentLike, (commentLike) => commentLike.user)
+  commentLikes: CommentLike[];
 
   // Other properties and decorators as needed
 }
