@@ -20,7 +20,6 @@ export const Routes: UserRouteProps[] = [
     handler: UserController.getAllUsers,
     action: "all",
     validation: [],
-    protected: true,
   },
   {
     method: "get",
@@ -38,6 +37,18 @@ export const Routes: UserRouteProps[] = [
       body("name").isString(),
       body("email").isEmail(),
       body("password").isLength({ min: 6 }),
+    ],
+  },
+  {
+    method: "patch",
+    path: `${BASE_PATH}${USER_ID_PATH}`,
+    handler: UserController.updateUser,
+    action: "update",
+    validation: [
+      param("id").isInt(),
+      body("name").isString().optional(),
+      body("email").isEmail().optional(),
+      body("password").isLength({ min: 6 }).optional(),
     ],
   },
   {
@@ -139,6 +150,52 @@ export const Routes: UserRouteProps[] = [
  *     responses:
  *       201:
  *         description: User created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Bad request - validation errors
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 errors:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       msg:
+ *                         type: string
+ */
+
+/**
+ * @swagger
+ * /users:
+ *   patch:
+ *     summary: Update a user
+ *     tags:
+ *       - Users
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *             required:
+ *               - name
+ *               - email
+ *               - password
+ *     responses:
+ *       201:
+ *         description: User updated successfully
  *         content:
  *           application/json:
  *             schema:

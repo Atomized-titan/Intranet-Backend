@@ -35,6 +35,35 @@ export const addUserSvc = async (
   return newUser;
 };
 
+export const updateUserSvc = async (
+  id: number,
+  name: string,
+  email: string,
+  password: string
+) => {
+  const user = await getDatabase()
+    .getRepository(User)
+    .findOne({ where: { id } });
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  if (name) {
+    user.name = name;
+  }
+
+  if (email) {
+    user.email = email;
+  }
+
+  if (password) {
+    user.password = await bcrypt.hash(password, 10);
+  }
+
+  const updatedUser = await getDatabase().getRepository(User).save(user);
+  return updatedUser;
+};
+
 export const deleteUserSvc = async (id: number) => {
   const userToDelete = await getDatabase()
     .getRepository(User)

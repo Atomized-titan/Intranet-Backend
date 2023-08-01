@@ -5,11 +5,14 @@ import {
   addUserSvc,
   deleteUserSvc,
   getUserByEmailSvc,
+  updateUserSvc,
 } from "../services/user.service";
 import { validationResult } from "express-validator";
 import bcrypt from "bcrypt";
 import { generateJWTToken } from "../config/passport-config";
 import { badRequest } from "../views/views";
+import { getDatabase } from "../orm/dbConnection";
+import { User } from "../orm/entities/User";
 export class UserController {
   static async getAllUsers(req: Request, res: Response, next: NextFunction) {
     try {
@@ -39,6 +42,29 @@ export class UserController {
       const { name, email, password } = req.body;
       const newUser = await addUserSvc(name, email, password);
       return res.status(201).json(newUser);
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async updateUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = parseInt(req.params.id);
+
+      // Get the existing user from the database
+      const existingUser = await getUserByIdSvc(userId);
+      if (!existingUser) {
+        return res.sendStatus(404);
+      }
+
+      // Extract the updated details from the request body
+      const { name, email, password } = req.body;
+
+      // Call the updateUserSvc function to update the user details
+      const updatedUser = await updateUserSvc(userId, name, email, password);
+
+      delete updatedUser.password; // Remove password from the response
+
+      return res.status(200).json(updatedUser);
     } catch (error) {
       next(error);
     }
