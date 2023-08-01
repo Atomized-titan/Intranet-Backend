@@ -9,7 +9,7 @@ const config: DataSourceOptions = {
   username: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
-  synchronize: false,
+  synchronize: process.env.NODE_ENV !== "production",
   logging: true,
   entities: ["src/orm/entities/**/*.ts"],
   migrations: ["src/orm/migrations/**/*.ts"],
