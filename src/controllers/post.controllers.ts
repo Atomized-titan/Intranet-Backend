@@ -6,6 +6,8 @@ import {
   deletePostSvc,
   getAllPostsSvc,
   getPostByIdSvc,
+  likePostSvc,
+  unlikePostSvc,
   updatePostSvc,
 } from "../services/post.service";
 
@@ -70,6 +72,30 @@ export class PostController {
       const userId = req.userId; // Assuming you have added the authenticated user to the request object
 
       await deletePostSvc(postId, userId);
+      res.sendStatus(204);
+    } catch (err) {
+      next(err);
+    }
+  }
+  static async likePost(req: Request, res: Response, next: NextFunction) {
+    try {
+      const postId = parseInt(req.params.id, 10);
+      const userId = req.userId; // Assuming you have added the authenticated user to the request object
+
+      await likePostSvc(postId, userId);
+      res.sendStatus(204);
+    } catch (err) {
+      next(err);
+    }
+  }
+  static async unlikePost(req: Request, res: Response, next: NextFunction) {
+    try {
+      const postId = parseInt(req.params.id, 10);
+      const userId = req.userId; // Assuming you have added the authenticated user to the request object
+
+      console.log({ postId, userId });
+
+      await unlikePostSvc(postId, userId);
       res.sendStatus(204);
     } catch (err) {
       next(err);

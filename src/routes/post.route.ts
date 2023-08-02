@@ -9,7 +9,7 @@ export interface PostRouteProps {
   method: string;
   path: string;
   handler: any;
-  action?: string;
+  action?: string; //irrelevant
   validation?: any[];
   protected?: boolean;
 }
@@ -52,5 +52,22 @@ export const PostRoutes: PostRouteProps[] = [
     action: "delete",
     validation: [param("id").isInt()],
     protected: true, // Requires authentication to delete a post
+  },
+  // route to like and dislike a post
+  {
+    method: "post",
+    path: `${BASE_PATH}${POST_ID_PATH}/like`,
+    handler: PostController.likePost,
+    action: "like",
+    validation: [param("id").isInt()],
+    protected: true, // Requires authentication to like a post
+  },
+  {
+    method: "delete",
+    path: `${BASE_PATH}${POST_ID_PATH}/unlike`,
+    handler: PostController.unlikePost,
+    action: "unlike",
+    validation: [param("id").isInt()],
+    protected: true, // Requires authentication to unlike a post
   },
 ];
