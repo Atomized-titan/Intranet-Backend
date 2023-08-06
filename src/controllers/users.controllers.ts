@@ -1,18 +1,16 @@
+import bcrypt from "bcrypt";
 import { NextFunction, Request, Response } from "express";
+import { validationResult } from "express-validator";
+import { generateJWTToken } from "../config/passport-config";
 import {
-  getAllUsersSvc,
-  getUserByIdSvc,
   addUserSvc,
   deleteUserSvc,
+  getAllUsersSvc,
   getUserByEmailSvc,
+  getUserByIdSvc,
   updateUserSvc,
 } from "../services/user.service";
-import { validationResult } from "express-validator";
-import bcrypt from "bcrypt";
-import { generateJWTToken } from "../config/passport-config";
 import { badRequest } from "../views/views";
-import { getDatabase } from "../orm/dbConnection";
-import { User } from "../orm/entities/User";
 export class UserController {
   static async getAllUsers(req: Request, res: Response, next: NextFunction) {
     try {
